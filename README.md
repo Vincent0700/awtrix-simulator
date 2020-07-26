@@ -1,5 +1,9 @@
 ## Awtrix Simulator
 
+[![GitHub Actions](https://img.shields.io/endpoint.svg?url=https://actions-badge.atrox.dev/vincent0700/awtrix-simulator/badge&style=flat-square&label=build&logo=none)](https://actions-badge.atrox.dev/vincent0700/awtrix-simulator/goto)
+[![Last Commit](https://img.shields.io/github/last-commit/vincent0700/awtrix-simulator/master?style=flat-square)](https://github.com/Vincent0700/awtrix-simulator/commits/master)
+[![LICENSE](https://img.shields.io/github/license/vincent0700/awtrix-simulator?style=flat-square)](https://github.com/vincent0700/awtrix-simulator/blob/master/LICENSE)
+
 一个 LED 像素屏模拟器，用于模拟和连接 DIY 的仿 Awtrix 时钟。
 
 [DEMO](https://vincent0700.github.io/awtrix-simulator)
@@ -34,8 +38,6 @@ $ npm run serve
 - 杜邦线若干
 - 手手 ✋
 
-![](./awtrix.jpg)
-
 ### Tutorial
 
 待续 ...
@@ -43,3 +45,5 @@ $ npm run serve
 ### Links
 
 [AWTIRX Documentation](https://awtrixdocs.blueforcer.de/#/en-en/README)
+
+![](./awtrix.jpg)
