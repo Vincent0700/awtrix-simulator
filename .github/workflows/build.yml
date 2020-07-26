@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  deploy:
+  build:
     if: github.repository == 'Vincent0700/awtrix-simulator'
     runs-on: ubuntu-latest
 
