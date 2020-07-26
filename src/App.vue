@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h1>Awtrix Simulator</h1>
+    <div class="tools-wrapper"></div>
+    <div class="led-wrapper">
+      <LEDMatrix :size="size" />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import LEDMatrix from './components/LEDMatrix.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    LEDMatrix
+  },
+  data() {
+    return {
+      size: [32, 8]
+    };
   }
 };
 </script>
@@ -21,8 +29,21 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+
+  h1 {
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: 500;
+    padding: 40px 0;
+    text-align: center;
+  }
+
+  .led-wrapper {
+    display: flex;
+    justify-content: center;
+    background: #000;
+    padding: 20px 0;
+  }
 }
 </style>
