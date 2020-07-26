@@ -59,8 +59,12 @@ export default {
   watch: {
     bgColor: {
       handler(val) {
-        if (!val) this.bgColor = '#444444';
-        this.$emit('bgColorChange', this.bgColor);
+        if (!val) {
+          this.bgColor = '#444444';
+          this.$emit('bgColorChange', null);
+        } else {
+          this.$emit('bgColorChange', this.bgColor);
+        }
       },
       immediate: true
     }

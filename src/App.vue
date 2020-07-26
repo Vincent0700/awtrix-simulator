@@ -70,7 +70,7 @@ export default {
       }
     },
     bgColorText() {
-      if (!this.bgColor || this.bgColor === '#444444') {
+      if (!this.bgColor) {
         return 'NULL';
       } else {
         return this.bgColor.toUpperCase();

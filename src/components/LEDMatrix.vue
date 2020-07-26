@@ -4,7 +4,7 @@
       <LEDBlock
         v-for="(_, x) in size[0]"
         :key="x"
-        :color="getColor(x, y)"
+        :color="getColor(x, y) | filterColor"
         :active="isInsideSelectArea(x, y)"
         @mousedown="handleLEDMouseDown(x, y)"
         @mouseover="handleLEDMouseOver(x, y)"
@@ -20,6 +20,11 @@ export default {
   name: 'LEDMatrix',
   components: {
     LEDBlock
+  },
+  filters: {
+    filterColor(color) {
+      return color ? color : '#444';
+    }
   },
   props: {
     // 点阵屏的尺寸
@@ -37,7 +42,7 @@ export default {
   },
   data() {
     const count = this.size[0] * this.size[1];
-    const defaultColors = Array(count).fill('#444');
+    const defaultColors = Array(count).fill(null);
     return {
       // 鼠标按下
       mouseDown: false,
