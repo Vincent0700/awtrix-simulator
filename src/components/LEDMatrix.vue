@@ -111,6 +111,7 @@ export default {
       const handleGlobalMouseDown = () => {
         this.selectArea.enable = false;
         document.removeEventListener('mouseup', handleGlobalMouseUp);
+        notifySelect();
       };
 
       document.addEventListener('mouseup', handleGlobalMouseUp);

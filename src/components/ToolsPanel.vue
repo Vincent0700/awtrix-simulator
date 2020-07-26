@@ -7,6 +7,7 @@
         class="tools-item"
         :class="{ active: active === item }"
         @click.stop="$emit('click', item)"
+        @mousedown.stop
       >
         <i class="iconfont" :class="'icon-' + item"></i>
       </div>
