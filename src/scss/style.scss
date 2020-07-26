@@ -1,0 +1,28 @@
+@font-face {
+  font-family: "iconfont";
+  src: url("../assets/iconfont/iconfont.eot") format("embedded-opentype"),
+    url("../assets/iconfont/iconfont.woff2") format("woff2"),
+    url("../assets/iconfont/iconfont.woff") format("woff"),
+    url("../assets/iconfont/iconfont.ttf") format("truetype"),
+    url("../assets/iconfont/iconfont.svg") format("svg");
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-select:before {
+  content: "\e66e";
+}
+
+.icon-brush:before {
+  content: "\e6c3";
+}
+
+.icon-tpl:before {
+  content: "\e661";
+}

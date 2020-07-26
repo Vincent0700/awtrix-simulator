@@ -57,7 +57,7 @@ export default {
   }
 
   &:hover {
-    border: 2px solid #ccc;
+    border: 2px solid #ff7689;
   }
 }
 </style>
