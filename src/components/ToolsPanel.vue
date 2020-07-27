@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="tools-group">
-      <div class="tools-item">
+      <div class="tools-item" @mousedown.stop @click.stop>
         <el-color-picker v-model="bgColor" :predefine="presetColor" size="mini" />
       </div>
     </div>
@@ -69,6 +69,13 @@ export default {
       },
       immediate: true
     }
+  },
+  mounted() {
+    // color-picker 阻止冒泡
+    const elm = document.getElementsByClassName('el-color-dropdown');
+    elm.forEach((item) => {
+      item.onmousedown = (e) => e.stopPropagation();
+    });
   }
 };
 </script>

@@ -1,3 +1,7 @@
+import { encode, decode } from 'base64-arraybuffer';
+window.encode = encode;
+window.decode = decode;
+
 /**
  * 十六进制颜色转RGB
  * @param {string} str 十六进制颜色值
@@ -50,5 +54,6 @@ const buffer2base64 = function(buffer) {
 export default {
   hex2rgb,
   rgb2hex,
-  buffer2base64
+  bin2str: encode,
+  str2bin: decode
 };

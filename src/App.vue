@@ -78,8 +78,23 @@ export default {
     }
   },
   mounted() {
+    // initialize
     this.matrix.init(this.$refs.matrix);
     this.setCurrentMode(MODE.SELECT);
+
+    // 捕获键盘按键
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 68) {
+        // press 'D' 填充区域
+        if (this.selectArea.enable) {
+          this.matrix.onDrawArea(
+            this.selectArea.startPos,
+            this.selectArea.endPos,
+            this.bgColorText
+          );
+        }
+      }
+    });
   },
   methods: {
     /**
@@ -99,7 +114,6 @@ export default {
       this.selectArea.enable = selectArea.enable;
       this.selectArea.startPos = selectArea.startPos;
       this.selectArea.endPos = selectArea.endPos;
-      this.matrix.onSelect(this.currentMode, this.selectArea);
     },
     /**
      * 处理鼠标拖拽

@@ -65,14 +65,6 @@ export default {
       colorData: defaultColors
     };
   },
-  computed: {
-    maxWidth() {
-      return this.size[0];
-    },
-    maxHeight() {
-      return this.size[1];
-    }
-  },
   created() {
     document.addEventListener('mousedown', () => (this.mouseDown = true));
     document.addEventListener('mouseup', () => (this.mouseDown = false));
