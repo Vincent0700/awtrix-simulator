@@ -110,15 +110,13 @@ export default {
         color: #fff;
 
         &.icon-select {
-          font-size: 22px;
+          margin-left: 1px;
+          font-size: 23px;
         }
 
         &.icon-brush {
           font-size: 18px;
-        }
-
-        &.icon-tpl {
-          font-size: 18px;
+          margin-left: 2px;
         }
       }
     }

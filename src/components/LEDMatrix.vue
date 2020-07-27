@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import LEDBlock from './LEDBlock.vue';
+import LEDBlock from '@/components/LEDBlock.vue';
+import tools from '@/libs/tools.js';
 
 export default {
   name: 'LEDMatrix',
@@ -79,8 +80,8 @@ export default {
   methods: {
     /**
      * 处理LED方块 MouseDown 事件
-     * @param {number} x coordinate axis x
-     * @param {number} y coordinate axis y
+     * @param {number} x x坐标
+     * @param {number} y y坐标
      */
     handleLEDMouseDown(x, y) {
       if (!this.selectMode) {
@@ -119,8 +120,8 @@ export default {
     },
     /**
      * 处理LED方块 MouseOver 事件
-     * @param {number} x coordinate axis x
-     * @param {number} y coordinate axis y
+     * @param {number} x x坐标
+     * @param {number} y y坐标
      */
     handleLEDMouseOver(x, y) {
       if (this.selectMode === 2) {
@@ -140,6 +141,7 @@ export default {
           this.calcSelectArea();
         }
       } else {
+        // 处理绘制模式
         if (this.mouseDown) {
           this.$emit('drag', x, y);
         }
@@ -170,8 +172,8 @@ export default {
     },
     /**
      * 计算坐标是否处于选择区域内
-     * @param {number} x coordinate axis x
-     * @param {number} y coordinate axis y
+     * @param {number} x x坐标
+     * @param {number} y y坐标
      */
     isInsideSelectArea(x, y) {
       return (
@@ -184,8 +186,8 @@ export default {
     },
     /**
      * 获取指定方块的颜色
-     * @param {number} x coordinate axis x
-     * @param {number} y coordinate axis y
+     * @param {number} x x坐标
+     * @param {number} y y坐标
      * @returns {string} color
      */
     getColor(x, y) {
@@ -193,11 +195,63 @@ export default {
     },
     /**
      * 设置指定方块颜色
-     * @param {number} x coordinate axis x
-     * @param {number} y coordinate axis y
+     * @param {number} x x坐标
+     * @param {number} y y坐标
      */
     setColor(x, y, color) {
       this.$set(this.colorData, y * this.size[0] + x, color);
+    },
+    /**
+     * 获取方块数据
+     * @param {number} x1 左上x坐标
+     * @param {number} y1 左上y坐标
+     * @param {number} x2 右下x坐标
+     * @param {number} y2 右下y坐标
+     */
+    getData(x1, y1, x2, y2) {
+      const width = x2 - x1 + 1;
+      const height = y2 - y1 + 1;
+      const bufferSize = width * height * 3 + 2;
+      const buffer = new ArrayBuffer(bufferSize);
+      const view = new DataView(buffer);
+      let offset = 0;
+      view.setUint8(offset++, width);
+      view.setUint8(offset++, height);
+      for (let y = y1; y <= y2; ++y) {
+        for (let x = x1; x <= x2; ++x) {
+          const color = this.getColor(x, y);
+          const [r, g, b] = tools.hex2rgb(color);
+          view.setUint8(offset++, r);
+          view.setUint8(offset++, g);
+          view.setUint8(offset++, b);
+        }
+      }
+      return buffer;
+    },
+    /**
+     * 设置方块数据
+     * @param {number} x1 左上x坐标
+     * @param {number} y1 左上y坐标
+     * @param {ArrayBuffer} buffer
+     */
+    setData(x1, y1, buffer) {
+      let offset = 0;
+      const array = new Uint8Array(buffer);
+      const width = array[offset++];
+      const height = array[offset++];
+      for (let y = y1; y <= y1 + height - 1; ++y) {
+        for (let x = x1; x <= x1 + width - 1; ++x) {
+          const r = array[offset++];
+          const g = array[offset++];
+          const b = array[offset++];
+          if (!r && !g && !b) {
+            this.setColor(x, y, null);
+          } else {
+            const color = tools.rgb2hex([r, g, b]);
+            this.setColor(x, y, color);
+          }
+        }
+      }
     }
   }
 };

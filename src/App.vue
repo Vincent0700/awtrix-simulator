@@ -36,7 +36,7 @@
 <script>
 import ToolsPanel from '@/components/ToolsPanel.vue';
 import LEDMatrix from '@/components/LEDMatrix.vue';
-import ToolBox, { Tools } from '@/toolbox.js';
+import Matrix, { MODE } from '@/libs/matrix.js';
 
 export default {
   name: 'App',
@@ -46,17 +46,17 @@ export default {
   },
   data() {
     return {
+      matrix: new Matrix(),
       size: [32, 8],
-      tools: Object.values(Tools),
-      currentMode: Tools.SELECT,
-      selectMode: 2, // 0: 禁止选中 1: 单选 2: 多选
+      tools: Object.values(MODE),
+      currentMode: MODE.SELECT,
+      selectMode: 2, // 0: 绘制模式 1: 单选 2: 多选
       selectArea: {
         enable: false,
         startPos: [0, 0],
         endPos: [0, 0]
       },
-      bgColor: '#444444',
-      toolbox: null
+      bgColor: '#444444'
     };
   },
   computed: {
@@ -78,8 +78,8 @@ export default {
     }
   },
   mounted() {
-    this.toolbox = new ToolBox(this.$refs.matrix);
-    this.setCurrentMode(Tools.SELECT);
+    this.matrix.init(this.$refs.matrix);
+    this.setCurrentMode(MODE.SELECT);
   },
   methods: {
     /**
@@ -88,9 +88,8 @@ export default {
      */
     setCurrentMode(name) {
       this.currentMode = name;
-      if (name === Tools.SELECT) this.selectMode = 2;
-      else if (name === Tools.DRAW) this.selectMode = 0;
-      else if (name === Tools.ASSETS) this.selectMode = 1;
+      if (name === MODE.SELECT) this.selectMode = 2;
+      else if (name === MODE.DRAW) this.selectMode = 0;
     },
     /**
      * 处理选中区域
@@ -100,15 +99,17 @@ export default {
       this.selectArea.enable = selectArea.enable;
       this.selectArea.startPos = selectArea.startPos;
       this.selectArea.endPos = selectArea.endPos;
-      this.toolbox.handleSelect(this.currentMode, this.selectArea);
+      this.matrix.onSelect(this.currentMode, this.selectArea);
     },
     /**
      * 处理鼠标拖拽
-     * @param {number} x coordinate axis x
-     * @param {number} y coordinate axis y
+     * @param {number} x x坐标
+     * @param {number} y y坐标
      */
     handleDrag(x, y) {
-      this.toolbox.handleDrag(this.currentMode, [x, y], this.bgColorText);
+      if (this.currentMode === MODE.DRAW) {
+        this.matrix.onDraw([x, y], this.bgColorText);
+      }
     },
     /**
      * 处理背景色修改
