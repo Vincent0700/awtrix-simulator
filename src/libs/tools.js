@@ -38,22 +38,23 @@ const rgb2hex = function([r, g, b]) {
 };
 
 /**
- * ArrayBuffer 转 Base64
- * @param {ArrayBuffer} buffer
- * @returns {string} base64
+ * 下载二进制文件
+ * @param {Array} buffer 二进制数据
+ * @param {string} filename 文件名
  */
-const buffer2base64 = function(buffer) {
-  var binary = '';
-  var bytes = new Uint8Array(buffer);
-  for (var len = bytes.byteLength, i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return window.btoa(binary);
+const downloadBinary = function(buffer, filename = 'untitled.led') {
+  const a = document.createElement('a');
+  const url = window.URL.createObjectURL(new Blob([buffer]));
+  a.href = url;
+  a.download = filename;
+  a.click();
+  window.URL.revokeObjectURL(url);
 };
 
 export default {
   hex2rgb,
   rgb2hex,
   bin2str: encode,
-  str2bin: decode
+  str2bin: decode,
+  downloadBinary
 };

@@ -17,6 +17,14 @@
         <el-color-picker v-model="bgColor" :predefine="presetColor" size="mini" />
       </div>
     </div>
+    <div class="tools-group">
+      <div class="tools-item" @mousedown.stop @click.stop>
+        <i class="iconfont icon-download"></i>
+      </div>
+      <div class="tools-item" @mousedown.stop @click.stop>
+        <i class="iconfont icon-upload"></i>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -124,6 +132,19 @@ export default {
         &.icon-brush {
           font-size: 18px;
           margin-left: 2px;
+        }
+
+        &.icon-save {
+          font-size: 18px;
+        }
+
+        &.icon-upload {
+          font-size: 18px;
+        }
+
+        &.icon-download {
+          margin-top: 2px;
+          font-size: 18px;
         }
       }
     }

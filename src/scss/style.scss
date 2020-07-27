@@ -1,10 +1,12 @@
 @font-face {
-  font-family: "iconfont";
-  src: url("../assets/iconfont/iconfont.eot") format("embedded-opentype"),
-    url("../assets/iconfont/iconfont.woff2") format("woff2"),
-    url("../assets/iconfont/iconfont.woff") format("woff"),
-    url("../assets/iconfont/iconfont.ttf") format("truetype"),
-    url("../assets/iconfont/iconfont.svg") format("svg");
+  font-family: "iconfont"; /* project id 1967162 */
+  src: url("//at.alicdn.com/t/font_1967162_se84ysfpbb.eot");
+  src: url("//at.alicdn.com/t/font_1967162_se84ysfpbb.eot?#iefix")
+      format("embedded-opentype"),
+    url("//at.alicdn.com/t/font_1967162_se84ysfpbb.woff2") format("woff2"),
+    url("//at.alicdn.com/t/font_1967162_se84ysfpbb.woff") format("woff"),
+    url("//at.alicdn.com/t/font_1967162_se84ysfpbb.ttf") format("truetype"),
+    url("//at.alicdn.com/t/font_1967162_se84ysfpbb.svg#iconfont") format("svg");
 }
 
 .iconfont {
@@ -23,6 +25,10 @@
   content: "\e6c3";
 }
 
-.icon-tpl:before {
-  content: "\e661";
+.icon-upload:before {
+  content: "\ec51";
+}
+
+.icon-download:before {
+  content: "\eaa3";
 }
