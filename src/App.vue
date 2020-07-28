@@ -3,21 +3,16 @@
     <!-- 标题栏 -->
     <h1>Awtrix Simulator</h1>
     <!-- 调试面板 -->
-    <div class="debug-panel">
-      <div class="debug-item">
-        <label>SELECT</label>
-        <span>{{ selectAreaText }}</span>
-      </div>
-      <div class="debug-item">
-        <label>FCOLOR</label>
-        <span>{{ bgColorText }}</span>
-      </div>
-    </div>
+    <DebugPanel :lists="debugInfo" />
+    <!-- 提示面板 -->
+    <InstructionPanel :name="tipsShown" />
     <!-- 工具面板 -->
     <ToolsPanel
       :tools="tools"
       :active="currentMode"
       @click="setCurrentMode"
+      @mouseover="handleToolsMouseover"
+      @mouseout="handleToolsMouseout"
       @bgColorChange="handleBgColorChange"
     />
     <!-- LED点阵 -->
@@ -36,12 +31,16 @@
 <script>
 import ToolsPanel from '@/components/ToolsPanel.vue';
 import LEDMatrix from '@/components/LEDMatrix.vue';
+import DebugPanel from '@/components/DebugPanel.vue';
+import InstructionPanel from '@/components/InstructionPanel.vue';
 import Matrix, { MODE } from '@/libs/matrix.js';
 
 export default {
   name: 'App',
   components: {
     ToolsPanel,
+    DebugPanel,
+    InstructionPanel,
     LEDMatrix
   },
   data() {
@@ -50,13 +49,24 @@ export default {
       size: [32, 8],
       tools: Object.values(MODE),
       currentMode: MODE.SELECT,
+      tipsShown: '',
       selectMode: 2, // 0: 绘制模式 1: 单选 2: 多选
       selectArea: {
         enable: false,
         startPos: [0, 0],
         endPos: [0, 0]
       },
-      bgColor: '#444444'
+      bgColor: '#444444',
+      debugInfo: [
+        {
+          label: 'SELECT',
+          value: 'selectAreaText'
+        },
+        {
+          label: 'FCOLOR',
+          value: 'bgColorText'
+        }
+      ]
     };
   },
   computed: {
@@ -64,7 +74,11 @@ export default {
       if (this.selectArea.enable === true) {
         const lt = this.selectArea.startPos;
         const rb = this.selectArea.endPos;
-        return `[${lt[0]},${lt[1]}] [${rb[0]},${rb[1]}]`;
+        if (lt[0] === rb[0] && lt[1] === rb[1]) {
+          return `[${lt[0]},${lt[1]}]`;
+        } else {
+          return `[${lt[0]},${lt[1]}] [${rb[0]},${rb[1]}]`;
+        }
       } else {
         return '[N,N] [N,N]';
       }
@@ -93,6 +107,11 @@ export default {
             this.bgColorText
           );
         }
+      } else if (e.keyCode === 8) {
+        // press 'backspace' 删除区域
+        if (this.selectArea.enable) {
+          this.matrix.onDrawArea(this.selectArea.startPos, this.selectArea.endPos, null);
+        }
       }
     });
   },
@@ -107,8 +126,24 @@ export default {
       else if (name === MODE.DRAW) this.selectMode = 0;
     },
     /**
+     * 处理鼠标移入工具
+     * @param {string} name
+     */
+    handleToolsMouseover(name) {
+      this.tipsShown = name;
+    },
+    /**
+     * 处理鼠标移出工具
+     * @param {string} name
+     */
+    handleToolsMouseout(name) {
+      if (this.tipsShown === name) {
+        this.tipsShown = null;
+      }
+    },
+    /**
      * 处理选中区域
-     * @param selectArea {object} 选中区域对象
+     * @param {object} selectArea 选中区域对象
      */
     handleSelect(selectArea) {
       this.selectArea.enable = selectArea.enable;
@@ -127,7 +162,7 @@ export default {
     },
     /**
      * 处理背景色修改
-     * @param color {string} 颜色值
+     * @param {string} color 颜色值
      */
     handleBgColorChange(color) {
       this.bgColor = color;
@@ -156,45 +191,6 @@ export default {
     justify-content: center;
     background: #000;
     padding: 20px 0;
-  }
-
-  .debug-panel {
-    position: fixed;
-    top: 5px;
-    left: 5px;
-    padding: 4px;
-    width: 200px;
-    border-radius: 1px;
-    font-family: Monaco, Consolas, 'Andale Mono', 'lucida console', 'Courier New', monospace;
-    background: #ccc;
-    color: #333;
-
-    .debug-item {
-      display: flex;
-      justify-content: flex-start;
-      margin-top: 2px;
-      font-size: 12px;
-      line-height: 18px;
-
-      &:first-child {
-        margin-top: 0;
-      }
-
-      label {
-        background: #333;
-        color: #fff;
-        width: 64px;
-        text-align: center;
-      }
-
-      span {
-        flex: 1;
-        box-sizing: border-box;
-        padding-left: 8px;
-        border: 1px solid #333;
-        border-left: 0;
-      }
-    }
   }
 }
 </style>

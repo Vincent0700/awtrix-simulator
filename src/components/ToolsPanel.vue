@@ -7,21 +7,41 @@
         class="tools-item"
         :class="{ active: active === item }"
         @click.stop="$emit('click', item)"
+        @mouseover="handleMouseover(item)"
+        @mouseout="handleMouseout(item)"
         @mousedown.stop
       >
         <i class="iconfont" :class="'icon-' + item"></i>
       </div>
     </div>
     <div class="tools-group">
-      <div class="tools-item" @mousedown.stop @click.stop>
+      <div
+        class="tools-item"
+        @mouseover="handleMouseover('FCOLOR')"
+        @mouseout="handleMouseout('FCOLOR')"
+        @mousedown.stop
+        @click.stop
+      >
         <el-color-picker v-model="bgColor" :predefine="presetColor" size="mini" />
       </div>
     </div>
     <div class="tools-group">
-      <div class="tools-item" @mousedown.stop @click.stop>
+      <div
+        class="tools-item"
+        @mouseover="handleMouseover('DOWNLOAD')"
+        @mouseout="handleMouseout('DOWNLOAD')"
+        @mousedown.stop
+        @click.stop
+      >
         <i class="iconfont icon-download"></i>
       </div>
-      <div class="tools-item" @mousedown.stop @click.stop>
+      <div
+        class="tools-item"
+        @mouseover="handleMouseover('UPLOAD')"
+        @mouseout="handleMouseout('UPLOAD')"
+        @mousedown.stop
+        @click.stop
+      >
         <i class="iconfont icon-upload"></i>
       </div>
     </div>
@@ -84,6 +104,22 @@ export default {
     elm.forEach((item) => {
       item.onmousedown = (e) => e.stopPropagation();
     });
+  },
+  methods: {
+    /**
+     * 处理鼠标移入
+     * @param {string} name
+     */
+    handleMouseover(name) {
+      this.$emit('mouseover', name);
+    },
+    /**
+     * 处理鼠标移出
+     * @param {string} name
+     */
+    handleMouseout(name) {
+      this.$emit('mouseout', name);
+    }
   }
 };
 </script>
